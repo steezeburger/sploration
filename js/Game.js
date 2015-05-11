@@ -61,13 +61,13 @@ Sploration.Game.prototype = {
     this.enemies.physicsBodyType = Phaser.Physics.ARCADE;
     
     // Random number of enemies, at random location, with random size and speedS
-    var numEnemies = this.game.rnd.integerInRange(10, 30);
+    var numEnemies = this.game.rnd.integerInRange(40, 60);
     var enemy;
     
     for (var i = 0; i < numEnemies; i++) {
       // Add sprite
       enemy = this.enemies.create(this.game.world.randomX, this.game.world.randomY, 'enemy');
-      enemy.scale.setTo(this.game.rnd.integerInRange(10, 20)/10);
+      enemy.scale.setTo(this.game.rnd.integerInRange(5, 20)/10);
       // Add physics
       enemy.body.velocity.x = this.game.rnd.integerInRange(-20, 20);
       enemy.body.velocity.y = this.game.rnd.integerInRange(-20, 20);
@@ -119,8 +119,9 @@ Sploration.Game.prototype = {
     // Play sound
     this.collectSound.play();
     
-    // Update score
+    // Update score and scoreboard
     this.playerScore++;
+    this.scoreLabel.text = this.playerScore;
     
     // Remove sprite
     collectible.kill();
@@ -132,6 +133,10 @@ Sploration.Game.prototype = {
     var style = { font: "20px Arial", fill: "#fff", align: "center" };
     this.scoreLabel = this.game.add.text(this.game.width-50, this.game.height - 50, text, style);
     this.scoreLabel.fixedToCamera = true;
-    this.scoreLabel.text = this.playerScore;
+  },
+  
+  gameOver: function() {
+    this.game.state.start('StartMenu', true, false, this.playerScore);
   }
+  
 };
